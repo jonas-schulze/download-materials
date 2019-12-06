@@ -44,7 +44,8 @@ while True:
         continue
 
     print('Downloading', fname, end=' ... ')
-    r = requests.get(args.url.format(i), auth=args.auth)
+    auth = None if args.auth is None else tuple(args.auth)
+    r = requests.get(args.url.format(i), auth=auth)
     if r.status_code != 200:
         # Assume that no further material is available
         print('not yet available')
