@@ -4,6 +4,7 @@ import argparse
 import requests
 
 from os.path import isfile
+from sys import stderr
 
 parser = argparse.ArgumentParser(description='Download numbered materials')
 parser.add_argument('--from',
@@ -32,6 +33,10 @@ parser.add_argument('-v',
 
 args = parser.parse_args()
 
+def info(*stuff, **kwstuff):
+    if args.verbose:
+        print(*stuff, **kwstuff, file=stderr)
+
 i = args.id - 1
 while True:
     i = i + 1
@@ -39,19 +44,19 @@ while True:
 
     if isfile(fname):
         # If material already exists, do not attempt to download it again
-        if args.verbose:
-            print('Skipped', fname)
+        info('Skipped', fname)
         continue
 
-    print('Downloading', fname, end=' ... ')
+    info('Downloading', fname, '...')
+
     auth = None if args.auth is None else tuple(args.auth)
     r = requests.get(args.url.format(i), auth=auth)
     if r.status_code != 200:
         # Assume that no further material is available
-        print('not yet available')
+        info(fname, 'not yet available')
         break
 
     with open(fname, 'wb') as f:
         f.write(r.content)
-    print('done')
+    print(fname)
 

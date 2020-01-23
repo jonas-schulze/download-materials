@@ -23,16 +23,20 @@ exercises:
 		--to 'exercises/exercise-{:02d}.pdf'
 ```
 
-Its output will then look like this:
+It will output all the files it downloaded (to `stdout`):
 
 ```
 $ make
-Downloading slides/slides-10.pdf ... not yet available
-Downloading exercises/exercise-07.pdf ... not yet available
+slides/slides-10.pdf
+slides/slides-11.pdf
 ```
 
-If you pass a `-v` to the script (e.g. on line 3 in the `Makefile`), it will
-give some more information:
+In the above example, the `slides` job found two new files while the
+`exercises` job didn't find anything new.
+
+If you pass a `-v` to the script (e.g. on line 3 in the `Makefile`),
+the same run would instead have printed the following.
+Note that all additional output goes to `stderr`:
 
 ```
 $ make
@@ -45,14 +49,20 @@ Skipped slides/slides-06.pdf
 Skipped slides/slides-07.pdf
 Skipped slides/slides-08.pdf
 Skipped slides/slides-09.pdf
-Downloading slides/slides-10.pdf ... not yet available
+Downloading slides/slides-10.pdf ...
+slides/slides-10.pdf
+Downloading slides/slides-11.pdf ...
+slides/slides-11.pdf
+Downloading slides/slides-12.pdf ...
+slides/slides-12.pdf not yet available
 Skipped exercises/exercise-01.pdf
 Skipped exercises/exercise-02.pdf
 Skipped exercises/exercise-03.pdf
 Skipped exercises/exercise-04.pdf
 Skipped exercises/exercise-05.pdf
 Skipped exercises/exercise-06.pdf
-Downloading exercises/exercise-07.pdf ... not yet available
+Downloading exercises/exercise-07.pdf ...
+exercises/exercise-07.pdf not yet available
 ```
 
 ## Help Message
